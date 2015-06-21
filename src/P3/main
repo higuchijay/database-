@@ -1,0 +1,163 @@
+/**
+ * Created by shivani on 3/8/15.
+ */
+
+// Import Required Packages
+package Project3
+import java.sql.*;
+import java.util.*
+public class JDBC {
+
+        // JDBC driver name and database URL
+        static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        static final String DB_URL = "jdbc:mysql://localhost/" + data;
+        static final String Our_DB = "jdbc:mysql://localhost/" + ourData;
+
+        //  Database credentials
+        static final String USER = "root";
+        static final String PASS = "password";
+
+        public static void main(String[] args) {
+            Connection conn = null;
+            Connection ourdatabase = null;
+            Statement stmt = null;
+            try{
+                //STEP 2: Register JDBC driver
+                Class.forName("com.mysql.jdbc.Driver");
+
+                //STEP 3: Open a connection
+                System.out.println("Connecting to database...");
+                conn = DriverManager.getConnection(DB_URL,USER,PASS);
+                ourdatabase = DriverManager.getConnection(Our_DB, USER, PASS);
+                //STEP 4: Execute a query
+
+
+
+                //Scanner in = new Scanner(System.in);
+                //String s;
+                System.out.println("Creating statement...");
+                //System.out.println("What kind of user are you? P for patient, D for doctor, or A for administrator");
+                //s = in.nextLine();
+
+                //If user is a patient enter in info
+                //if(s.equals("P"))
+                //{
+
+                //}
+
+
+                stmt = conn.createStatement();
+                String sql;
+                sql = "SELECT * FROM " + data + "." + table;
+                ResultSet rs = stmt.executeQuery(sql);
+
+                //STEP 5: Extract data from result set
+                while(rs.next()){
+                    //Retrieve by column name
+                    String patientId = resultSet.getString("patientId");
+                    //grab all data from table
+                    //patient
+                    String name = resultSet.getString("GivenName");
+                    String famName = resultSet.getString("FamilyName");
+                    String birthTime = resultSet.getString("BirthTime");
+                    String providerId = resultSet.getString("providerId");
+                    //guardian
+                    String guardianNum = resultSet.getString("GuardianNo");
+                    String relationshipTo = resultSet.getString("Relationship");
+                    String first = resultSet.getString("FirstName");
+                    String last = resultSet.getString("LastName");
+                    String phone = resultSet.getString("phone");
+                    String address = resultSet.getString("address");
+                    String city = resultSet.getString("city");
+                    String state = resultSet.getString("state");
+                    String zip = resultSet.getString("zip");
+                    //author
+                    String authorId = resultSet.getString("AuthorId");
+                    String authorTitle = resultSet.getString("AuthorTitle");
+                    String authorFirst = resultSet.getString("AuthorFirstName");
+                    String authorLast = resultSet.getString("AuthorLastName");
+                    //asigned
+                    String participatingRole = resultSet.getString("ParticipatingRole");
+                    //insurance company
+                    String payerId = resultSet.getString("PayerId");
+                    String insuranceName = resultSet.getString("Name");
+                    String policyHolder = resultSet.getString("PolicyHolder");
+                    String policyType = resultSet.getString("PolicyType");
+                    String purpose = resultSet.getString("Purpose");
+                    //relative
+                    String relativeId = resultSet.getString("RelativeId");
+                    String relation = resultSet.getString("Relation");
+                    String age = resultSet.getString("age");
+                    String diagnosis = resultSet.getString("Diagnosis");
+                    //allergy
+                    String allergyId = resultSet.getString("Id");
+                    //System.out.println("idStr = " + idStr);
+                    String substance = resultSet.getString("Substance");
+                    String reaction = resultSet.getString("Reaction");
+                    String status = resultSet.getString("Status");
+                    //lab test report
+                    String labTestResultId = resultSet.getString("LabTestResultId");
+                    String patientVisitId = resultSet.getString("PatientVisitId");
+                    String labTestDate = resultSet.getString("LabTestPerformedDate");
+                    String labType = resultSet.getString("LabTestType");
+                    String testResult = resultSet.getString("TestResultValue");
+                    String referenceHigh = resultSet.getString("ReferenceRangeHigh");
+                    String referenceLow = resultSet.getString("ReferenceRangeLow");
+                    //plan
+                    String planId = resultSet.getString("PlanId");
+                    String activity = resultSet.getString("Activity");
+                    String scheduled = resultSet.getString("ScheduledDate");
+
+                    String suffix = "";
+                    String gender = "";
+                    String patientRole = "";
+                }
+
+        // need xml creation date
+            PreparedStatement patient = ourdatabase.prepareStatement("INSERT INTO Patient (" + patientId + "," + patientRole + ","  + name + "," + famName + "," +suffix + "," + gender+ "," + birthTime + "," + providerId+")");
+           //where does the relationshipTo data go???
+            PreparedStatement guardian = ourdatabase.prepareStatement("INSERT INTO Guardian (" + guardianNum + "," + first + ","  + last + "," + phone + "," +address + "," + city+ "," + state + "," + zip+")");
+            PreparedStatement author = ourdatabase.prepareStatement("INSERT INTO Author (" + authorId + "," + authorTitle + ","  + authorFirst + "," + authorLast + "," +address + "," + city+ "," + state + "," + zip+ ")");
+            PreparedStatement assigned = ourdatabase.prepareStatement("INSERT INTO Assign (" + patientId + "," + authorId + "," + participatingRole ")");
+            PreparedStatement insuranceCompany = ourdatabase.prepareStatement("INSERT INTO InsuranceCompany (" + payerId + "," + insuranceName + "," + policyHolder + "," +purpose + "," + policyType+ ")");
+            PreparedStatement famHistory = ourdatabase.prepareStatement("INSERT INTO FamilyHistory (" + relativeId + "," + relation + "," + age + "," +diagnosis + ")");
+        //no allergy id?!!?!
+            PreparedStatement allergy = ourdatabase.prepareStatement("INSERT INTO Allergies (" + substance + "," + reaction + "," + status + ")");
+            PreparedStatement labTest = ourdatabase.prepareStatement("INSERT INTO LabTestReports (" + labTestResultId + "," + patientVisitId + "," + labTestDate + labType + "," + testResult + "," +referenceHigh + "," + referenceLow + ")");
+            PreparedStatement plan = ourdatabase.prepareStatement("INSERT INTO Plan_for_Patient (" + planId + "," + activity + "," + scheduled + patientId + ")");
+
+
+
+
+
+        //STEP 6: Clean-up environment
+                rs.close();
+                stmt.close();
+                conn.close();
+            }catch(SQLException se){
+                //Handle errors for JDBC
+                se.printStackTrace();
+            }catch(Exception e){
+                //Handle errors for Class.forName
+                e.printStackTrace();
+            }finally{
+                //finally block used to close resources
+                try{
+                    if(stmt!=null)
+                        stmt.close();
+                }catch(SQLException se2){
+                }// nothing we can do
+                try{
+                    if(conn!=null)
+                        conn.close();
+                }catch(SQLException se){
+                    se.printStackTrace();
+                }//end finally try
+            }//end try
+            System.out.println("Goodbye!");
+        }//end main
+    //end FirstExample
+
+
+
+}
